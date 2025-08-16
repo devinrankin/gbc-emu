@@ -1,0 +1,4 @@
+test-roms/*
+gbc/*.gch
+gbc/*.o
+gbc/a.out
