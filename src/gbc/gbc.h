@@ -10,8 +10,10 @@ class GBColor {
         GBColor();
         ~GBColor();
         bool load_rom(const char* filename);
-        bool emulate();
+        void emulate();
 
+        CPU* cpu;
+        Memory* memory;
         Cartridge* cartridge;
     private:
 };
