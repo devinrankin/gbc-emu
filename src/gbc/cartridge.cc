@@ -35,9 +35,21 @@ bool Cartridge::load_rom(const char* filepath) {
     file.read(reinterpret_cast<char*>(buf), f_size);
     this->rom_data = buf;
     this->rom_size = this->rom_data[ROM_SIZE_ADDR];
-    this->cart_type = this->rom_data[CARTRIDGE_TYPE_ADDR];
+    this->mbc_type = get_mbc_type(this->rom_data[CARTRIDGE_TYPE_ADDR]);
 
     return 0;
+}
+
+MBC_TYPE Cartridge::get_mbc_type(uint8_t cart_type) {
+    switch(cart_type) {
+        case 0x00: return MBC_TYPE::NONE;
+        case 0x01: case 0x02: case 0x03: return MBC_TYPE::MBC1;
+        case 0x05: case 0x06: return MBC_TYPE::MBC2;
+        case 0x0F: case 0x10: case 0x11: case 0x12: case 0x13: return MBC_TYPE::MBC3;
+        case 0x19: case 0x1A: case 0x1B: case 0x1C: case 0x1D: case 0x1E: return MBC_TYPE::MBC5;
+        case 0x22: return MBC_TYPE::MBC7;
+        default: return MBC_TYPE::UNSUPPORTED;
+    }
 }
 
 bool Cartridge::verify_header_checksum() {
