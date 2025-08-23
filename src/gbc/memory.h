@@ -1,5 +1,6 @@
 #ifndef GBC_EMU_MEM_H_
 #define GBC_EMU_MEM_H_
+#include "cartridge.h"
 #include <array>
 #include <cstdint>
 
@@ -62,12 +63,13 @@ struct MB7 {
 
 class Memory {
     public:
-        uint8_t memory[MEMORY_SIZE];
-        uint8_t ram[RAM_SIZE];
         Memory();
         ~Memory();
         uint8_t read(uint16_t address);
         void write(uint16_t address, uint8_t value);
+        uint8_t memory[MEMORY_SIZE];
+        uint8_t ram[RAM_SIZE];
+        Cartridge* cartridge;
     private:
 };
 
