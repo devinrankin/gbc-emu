@@ -1,7 +1,10 @@
+#ifndef GBC_EMU_MEM_H_
+#define GBC_EMU_MEM_H_
 #include <array>
 #include <cstdint>
 
 static constexpr unsigned int MEMORY_SIZE = 0xFFFF;
+static constexpr unsigned int RAM_SIZE = 0x3FFF;
 
 enum MBC_TYPE {
     NONE, MBC1, MBC2, MBC3, MBC5, MBC6, MBC7, M161, MMM01, HUC1, HUC3, TAMA5
@@ -54,14 +57,18 @@ struct MBC6 {
 
 struct MB7 {
     bool ram_enable;
+
 };
 
 class Memory {
     public:
         uint8_t memory[MEMORY_SIZE];
+        uint8_t ram[RAM_SIZE];
         Memory();
         ~Memory();
         uint8_t read(uint16_t address);
         void write(uint16_t address, uint8_t value);
     private:
 };
+
+#endif
