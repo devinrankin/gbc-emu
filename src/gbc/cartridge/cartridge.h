@@ -14,6 +14,7 @@ class Cartridge {
         virtual uint8_t read(uint16_t address);
         virtual void write(uint16_t address, uint8_t value);
     protected:
+        std::unique_ptr<CartridgeHeader> header;
         void switch_bank(uint8_t bank);
 
         std::vector<uint8_t> rom_data;
@@ -21,7 +22,7 @@ class Cartridge {
 };
 
 class NoMBC : public Cartridge {
-    NoMBC(std::vector<uint8_t> rom_data, std::vector<uint8_t> ram_data);
+    NoMBC(std::unique_ptr<CartridgeHeader> header, std::vector<uint8_t> rom_data, std::vector<uint8_t> ram_data);
 
     uint8_t read(const uint16_t address) override;
     void write(const uint16_t address, uint8_t value) override;
@@ -29,7 +30,7 @@ class NoMBC : public Cartridge {
 
 class MBC1 : public Cartridge {
 public:
-    MBC1(std::vector<uint8_t> rom_data, std::vector<uint8_t> ram_data);
+    MBC1(std::unique_ptr<CartridgeHeader> header, std::vector<uint8_t> rom_data, std::vector<uint8_t> ram_data, std::unique_ptr<CartridgeHeader> cartridge_header);
     uint8_t read(const uint16_t address) override;
     void write(const uint16_t address, uint8_t value) override;
 private:
@@ -40,7 +41,7 @@ private:
 
 class MBC2 : public Cartridge {
 public:
-    MBC2(std::vector<uint8_t> rom_data);
+    MBC2(std::unique_ptr<CartridgeHeader> header, std::vector<uint8_t> rom_data, std::unique_ptr<CartridgeHeader> cartridge_header);
     uint8_t read(const uint16_t address) override;
     void write(const uint16_t address, uint8_t value) override;
 private:
@@ -51,7 +52,7 @@ private:
 
 class MBC3 : public Cartridge {
 public:
-    MBC3(std::vector<uint8_t> rom_data, std::vector<uint8_t> ram_data);
+    MBC3(std::unique_ptr<CartridgeHeader> header, std::vector<uint8_t> rom_data, std::vector<uint8_t> ram_data, std::unique_ptr<CartridgeHeader> cartridge_header);
     uint8_t read(const uint16_t address) override;
     void write(const uint16_t address, uint8_t value) override;
 private:
@@ -70,7 +71,7 @@ private:
 
 class MBC5 : public Cartridge {
 public:
-    MBC5(std::vector<uint8_t> rom_data, std::vector<uint8_t> ram_data);
+    MBC5(std::unique_ptr<CartridgeHeader> header, std::vector<uint8_t> rom_data, std::vector<uint8_t> ram_data, std::unique_ptr<CartridgeHeader> cartridge_header);
     uint8_t read(const uint16_t address) override;
     void write(const uint16_t address, uint8_t value) override;
 private:
@@ -80,7 +81,7 @@ private:
 
 class MBC7 : public Cartridge {
 public:
-    MBC7(std::vector<uint8_t> rom_data, std::vector<uint8_t> ram_data);
+    MBC7(std::unique_ptr<CartridgeHeader> header, std::vector<uint8_t> rom_data, std::vector<uint8_t> ram_data, std::unique_ptr<CartridgeHeader> cartridge_header);
     uint8_t read(const uint16_t address) override;
     void write(const uint16_t address, uint8_t value) override;
 private:
